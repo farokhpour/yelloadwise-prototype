@@ -1,0 +1,83 @@
+services:
+  nginx:
+    image: nginx:alpine
+    container_name: prototype_nginx
+    ports:
+      - "8080:80"
+    volumes:
+      - ./application:/var/www/html:ro
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - php-fpm
+    networks:
+      - prototype_network
+    restart: unless-stopped
+
+  php-fpm:
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile.php-fpm
+    container_name: prototype_php-fpm
+    volumes:
+      - ./application:/var/www/html
+      - ./config/php.ini:/usr/local/etc/php/conf.d/custom.ini:ro
+    depends_on:
+      - mysql
+      - redis
+    networks:
+      - prototype_network
+    environment:
+      - PHP_IDE_CONFIG=serverName=prototype
+    restart: unless-stopped
+
+  mysql:
+    image: mysql:8.0
+    container_name: prototype_mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: prototype
+      MYSQL_USER: prototype
+      MYSQL_PASSWORD: prototype
+    volumes:
+      - mysql_data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    networks:
+      - prototype_network
+    restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+    container_name: prototype_redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - prototype_network
+    restart: unless-stopped
+    command: redis-server --appendonly yes
+
+  nodejs:
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile.nodejs
+    container_name: prototype_nodejs
+    volumes:
+      - ./application:/var/www/html
+      - node_modules:/var/www/html/node_modules
+    working_dir: /var/www/html
+    networks:
+      - prototype_network
+    restart: unless-stopped
+    command: tail -f /dev/null
+
+networks:
+  prototype_network:
+    driver: bridge
+
+volumes:
+  mysql_data:
+  redis_data:
+  node_modules:
+

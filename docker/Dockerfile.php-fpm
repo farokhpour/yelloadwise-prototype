@@ -1,0 +1,57 @@
+FROM php:8.2-fpm
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    git \
+    curl \
+    libpng-dev \
+    libonig-dev \
+    libxml2-dev \
+    zip \
+    unzip \
+    libzip-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install PHP extensions
+RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd zip
+
+# Install Redis extension
+RUN pecl install redis && docker-php-ext-enable redis
+
+# Install Composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+
+# Set working directory
+WORKDIR /var/www/html
+
+# Create application directory structure if it doesn't exist
+RUN mkdir -p /var/www/html
+
+# Install Laravel during build if not already present
+# Note: Volume mounts will override this during runtime, but this ensures the image is complete
+RUN if [ ! -f "/var/www/html/artisan" ] && [ ! -f "/var/www/html/composer.json" ]; then \
+        echo "Installing Laravel..."; \
+        (composer create-project --prefer-dist --no-interaction laravel/laravel /tmp/laravel "^11.0" || \
+         composer create-project --prefer-dist --no-interaction laravel/laravel /tmp/laravel "^10.0" || \
+         composer create-project --prefer-dist --no-interaction laravel/laravel /tmp/laravel "^9.0") && \
+        cp -r /tmp/laravel/. /var/www/html/ && \
+        rm -rf /tmp/laravel || true; \
+    fi
+
+# Install PHP dependencies (composer install) if composer.json exists
+RUN if [ -f "/var/www/html/composer.json" ]; then \
+        cd /var/www/html && \
+        composer install --no-dev --optimize-autoloader --no-interaction --prefer-dist || true; \
+    fi
+
+# Set permissions
+RUN chown -R www-data:www-data /var/www/html && \
+    chmod -R 755 /var/www/html && \
+    mkdir -p /var/www/html/storage /var/www/html/bootstrap/cache && \
+    chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache || true
+
+# Expose port 9000 for PHP-FPM
+EXPOSE 9000
+
+CMD ["php-fpm"]
+

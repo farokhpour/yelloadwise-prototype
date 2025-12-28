@@ -1,0 +1,13 @@
+application/vendor
+application/node_modules
+application/.git
+application/.env
+application/storage/logs/*
+application/storage/framework/cache/*
+application/storage/framework/sessions/*
+application/storage/framework/views/*
+application/bootstrap/cache/*
+.git
+.gitignore
+README.md
+

@@ -1,0 +1,70 @@
+import { createApp } from 'vue';
+import CampaignWizard from './components/CampaignWizard.vue';
+
+// Debug: Log that script loaded
+console.log('🔵 Campaign Wizard.js script loaded');
+console.log('🔵 Vue createApp available:', typeof createApp !== 'undefined');
+console.log('🔵 CampaignWizard imported:', typeof CampaignWizard !== 'undefined');
+
+// Function to initialize Vue app
+function initVueApp() {
+    console.log('🔵 initVueApp called');
+    console.log('🔵 Document ready state:', document.readyState);
+    
+    const mountElement = document.getElementById('campaign-wizard-app');
+    console.log('🔵 Mount element found:', mountElement !== null);
+    
+    if (!mountElement) {
+        console.error('❌ Could not find #campaign-wizard-app element');
+        console.log('🔵 Available elements with id:', Array.from(document.querySelectorAll('[id]')).map(el => el.id));
+        return;
+    }
+    
+    console.log('🔵 Mount element content before:', mountElement.innerHTML);
+    
+    try {
+        console.log('🔵 Creating Vue app with CampaignWizard as root component...');
+        
+        // Create app with CampaignWizard as the root component
+        const app = createApp(CampaignWizard);
+        
+        console.log('🔵 Mounting to #campaign-wizard-app...');
+        // Mount the app - this will replace the content with the component
+        app.mount('#campaign-wizard-app');
+        
+        console.log('✅ Vue campaign wizard app mounted successfully!');
+        
+        // Check after a brief delay to see if content changed
+        setTimeout(() => {
+            const afterElement = document.getElementById('campaign-wizard-app');
+            if (afterElement) {
+                console.log('🔵 Mount element content after mount:', afterElement.innerHTML.substring(0, 200));
+                console.log('🔵 Element has Vue data attribute:', afterElement.hasAttribute('data-v-'));
+            } else {
+                console.log('🔵 Element not found after mount');
+            }
+        }, 100);
+    } catch (error) {
+        console.error('❌ Error mounting Vue app:', error);
+        console.error('❌ Error stack:', error.stack);
+    }
+}
+
+// Try multiple approaches to ensure it runs
+if (document.readyState === 'loading') {
+    console.log('🔵 Document still loading, waiting for DOMContentLoaded');
+    document.addEventListener('DOMContentLoaded', initVueApp);
+} else {
+    console.log('🔵 Document already ready, calling initVueApp immediately');
+    initVueApp();
+}
+
+// Also try with a small delay as fallback
+setTimeout(() => {
+    const element = document.getElementById('campaign-wizard-app');
+    if (element && element.innerHTML.includes('Loading')) {
+        console.log('🔵 Fallback: Element still has loading text, Vue might not have mounted');
+        initVueApp();
+    }
+}, 500);
+

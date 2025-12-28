@@ -1,0 +1,20 @@
+FROM node:20-alpine
+
+# Install system dependencies
+RUN apk add --no-cache \
+    git \
+    bash
+
+# Set working directory
+WORKDIR /var/www/html
+
+# Install npm dependencies if package.json exists
+# Note: node_modules volume will be used at runtime, but this ensures the image has dependencies
+RUN if [ -f "/var/www/html/package.json" ]; then \
+        cd /var/www/html && \
+        npm install || true; \
+    fi
+
+# Default command (can be overridden)
+CMD ["tail", "-f", "/dev/null"]
+
