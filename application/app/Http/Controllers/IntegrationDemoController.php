@@ -28,7 +28,7 @@ class IntegrationDemoController extends Controller
         if ($campaigns->isEmpty()) {
             return response()->json([
                 'success' => false,
-                'message' => 'No active campaigns for this location'
+                'message' => 'هیچ کمپین فعالی برای این موقعیت وجود ندارد'
             ], 404);
         }
 
