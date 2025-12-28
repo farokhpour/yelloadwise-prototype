@@ -30,6 +30,7 @@
     </style>
 </head>
 <body>
+    @include('partials.header')
     <div id="app">
         @yield('content')
     </div>

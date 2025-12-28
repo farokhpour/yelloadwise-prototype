@@ -17,6 +17,7 @@ Route::get('/wizard', [WizardController::class, 'index'])->name('wizard');
 
 // Campaign Routes (User)
 Route::prefix('campaigns')->name('campaigns.')->group(function () {
+    Route::get('/', [CampaignController::class, 'index'])->name('index');
     Route::get('/create', [CampaignController::class, 'create'])->name('create');
     Route::post('/', [CampaignController::class, 'store'])->name('store');
     Route::get('/{id}', [CampaignController::class, 'show'])->name('show');

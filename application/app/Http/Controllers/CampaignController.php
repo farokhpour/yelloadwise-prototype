@@ -9,6 +9,13 @@ use Illuminate\Support\Facades\Log;
 
 class CampaignController extends Controller
 {
+    public function index()
+    {
+        // Get all campaigns (in production, filter by authenticated user)
+        $campaigns = Campaign::orderBy('created_at', 'desc')->get();
+        return view('campaigns.index', compact('campaigns'));
+    }
+
     public function create()
     {
         return view('campaigns.create');
@@ -63,7 +70,7 @@ class CampaignController extends Controller
         
         if ($campaign->status !== 'waiting_payment') {
             return redirect()->route('campaigns.show', $id)
-                ->with('error', 'Campaign is not ready for payment');
+                ->with('error', 'کمپین آماده پرداخت نیست');
         }
 
         return view('campaigns.payment', compact('campaign'));
