@@ -7,7 +7,6 @@
 !/storage/app/.gitkeep
 !/storage/app/public/.gitkeep
 /storage/app/public/*
-!/storage/app/public/campaigns
 /storage/app/public/campaigns/*
 !/storage/framework/.gitkeep
 /storage/framework/cache/*
