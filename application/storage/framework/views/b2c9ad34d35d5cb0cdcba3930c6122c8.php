@@ -11,15 +11,6 @@
         </div>
     </div>
 
-    <!-- Description Section -->
-    <div style="background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); margin-bottom: 2rem;">
-        <h2 style="color: #007bff; margin-bottom: 1rem; border-bottom: 2px solid #007bff; padding-bottom: 0.5rem;">توضیحات</h2>
-        <p style="color: #555; line-height: 1.8; font-size: 1.05rem;">
-            <?php echo e($epic['description']); ?>
-
-        </p>
-    </div>
-
     <!-- How It Works Section -->
     <div style="background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); margin-bottom: 2rem;">
         <h2 style="color: #007bff; margin-bottom: 1rem; border-bottom: 2px solid #007bff; padding-bottom: 0.5rem;">نحوه کار</h2>
@@ -30,14 +21,6 @@
         </ol>
     </div>
 
-    <!-- Purpose Section -->
-    <div style="background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); margin-bottom: 2rem;">
-        <h2 style="color: #007bff; margin-bottom: 1rem; border-bottom: 2px solid #007bff; padding-bottom: 0.5rem;">هدف</h2>
-        <p style="color: #555; line-height: 1.8; font-size: 1.05rem;">
-            <?php echo e($epic['purpose']); ?>
-
-        </p>
-    </div>
 
     <!-- Pages Section -->
     <div style="background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
@@ -106,32 +89,34 @@
         </div>
 
         <!-- Integration Pages -->
-        <div>
-            <h3 style="color: #6f42c1; margin-bottom: 1rem; font-size: 1.3rem;">🔌 صفحات یکپارچه‌سازی</h3>
-            <div style="display: grid; gap: 1rem;">
-                <?php $__currentLoopData = $epic['pages']['integration']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $page): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                    <div style="border: 1px solid #dee2e6; border-radius: 8px; padding: 1.5rem; background: #f8f9fa; transition: all 0.3s;" 
-                         onmouseover="this.style.borderColor='#6f42c1'; this.style.boxShadow='0 2px 8px rgba(111,66,193,0.2)';"
-                         onmouseout="this.style.borderColor='#dee2e6'; this.style.boxShadow='none';">
-                        <h4 style="margin: 0 0 0.5rem 0; color: #333;"><?php echo e($page['name']); ?></h4>
-                        <p style="margin: 0 0 0.75rem 0; color: #666; font-size: 0.95rem; line-height: 1.6;"><?php echo e($page['description']); ?></p>
-                        <p style="margin: 0 0 1rem 0; padding: 0.5rem 1rem; background: #e9ecef; border-radius: 4px; font-size: 0.875rem; color: #495057;">
-                            <strong>نمای کلی:</strong> <?php echo e($page['overview']); ?>
+        <?php if(isset($epic['pages']['integration']) && count($epic['pages']['integration']) > 0): ?>
+            <div>
+                <h3 style="color: #6f42c1; margin-bottom: 1rem; font-size: 1.3rem;">🔌 صفحات یکپارچه‌سازی</h3>
+                <div style="display: grid; gap: 1rem;">
+                    <?php $__currentLoopData = $epic['pages']['integration']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $page): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                        <div style="border: 1px solid #dee2e6; border-radius: 8px; padding: 1.5rem; background: #f8f9fa; transition: all 0.3s;" 
+                             onmouseover="this.style.borderColor='#6f42c1'; this.style.boxShadow='0 2px 8px rgba(111,66,193,0.2)';"
+                             onmouseout="this.style.borderColor='#dee2e6'; this.style.boxShadow='none';">
+                            <h4 style="margin: 0 0 0.5rem 0; color: #333;"><?php echo e($page['name']); ?></h4>
+                            <p style="margin: 0 0 0.75rem 0; color: #666; font-size: 0.95rem; line-height: 1.6;"><?php echo e($page['description']); ?></p>
+                            <p style="margin: 0 0 1rem 0; padding: 0.5rem 1rem; background: #e9ecef; border-radius: 4px; font-size: 0.875rem; color: #495057;">
+                                <strong>نمای کلی:</strong> <?php echo e($page['overview']); ?>
 
-                        </p>
-                        <div style="display: flex; align-items: center; gap: 1rem; padding-top: 1rem; border-top: 1px solid #dee2e6;">
-                            <a href="<?php echo e($page['url']); ?>" 
-                               target="_blank"
-                               style="display: inline-block; padding: 0.75rem 1.5rem; background: #6f42c1; color: white; text-decoration: none; border-radius: 6px; font-weight: 600; transition: all 0.3s;"
-                               onmouseover="this.style.background='#5a32a3'; this.style.transform='translateY(-2px)';"
-                               onmouseout="this.style.background='#6f42c1'; this.style.transform='translateY(0)';">
-                                🚀 رفتن به صفحه
-                            </a>
+                            </p>
+                            <div style="display: flex; align-items: center; gap: 1rem; padding-top: 1rem; border-top: 1px solid #dee2e6;">
+                                <a href="<?php echo e($page['url']); ?>" 
+                                   target="_blank"
+                                   style="display: inline-block; padding: 0.75rem 1.5rem; background: #6f42c1; color: white; text-decoration: none; border-radius: 6px; font-weight: 600; transition: all 0.3s;"
+                                   onmouseover="this.style.background='#5a32a3'; this.style.transform='translateY(-2px)';"
+                                   onmouseout="this.style.background='#6f42c1'; this.style.transform='translateY(0)';">
+                                    🚀 رفتن به صفحه
+                                </a>
+                            </div>
                         </div>
-                    </div>
-                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                </div>
             </div>
-        </div>
+        <?php endif; ?>
     </div>
 </div>
 <?php $__env->stopSection(); ?>

@@ -24,29 +24,32 @@ class CampaignController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'video_file' => 'required|file|mimes:mp4,avi,mov,wmv|max:102400', // 100MB max
-            'days' => 'required|integer|min:1',
-            'cars' => 'required|integer|min:1',
-            'locations' => 'required|string', // JSON string
-            'link' => 'required|url',
+            'name' => 'required|string|min:2|max:100',
+            'video_file' => 'nullable|file|mimes:mp4,mkv,avi,mov,wmv|max:102400', // 100MB max, optional
+            'days' => 'required|integer|min:1|max:60',
+            'cars' => 'required|integer|min:1|max:100',
+            'locations' => 'nullable|string', // JSON string, optional
+            'link' => 'nullable|url', // Optional
             'utms' => 'nullable|string', // JSON string
         ]);
 
         // Parse JSON strings
-        $locations = json_decode($validated['locations'], true);
+        $locations = !empty($validated['locations']) ? json_decode($validated['locations'], true) : [];
         $utms = json_decode($validated['utms'] ?? '{}', true);
 
-        // Store video file (in production, this would go to MinIO)
-        $videoPath = $request->file('video_file')->store('campaigns/videos', 'public');
+        // Store video file if provided (in production, this would go to MinIO)
+        $videoPath = null;
+        if ($request->hasFile('video_file')) {
+            $videoPath = $request->file('video_file')->store('campaigns/videos', 'public');
+        }
 
         $campaign = Campaign::create([
             'name' => $validated['name'],
             'video_file' => $videoPath,
             'days' => $validated['days'],
             'cars' => $validated['cars'],
-            'locations' => $locations,
-            'link' => $validated['link'],
+            'locations' => $locations ?: [],
+            'link' => $validated['link'] ?? null,
             'utms' => $utms,
             'status' => 'waiting_admin_approval',
         ]);
@@ -69,7 +72,7 @@ class CampaignController extends Controller
         $campaign = Campaign::findOrFail($id);
         
         if ($campaign->status !== 'waiting_payment') {
-            return redirect()->route('campaigns.show', $id)
+            return redirect()->route('epic.digital-taxi-rooftop.campaign.show', $id)
                 ->with('error', 'کمپین آماده پرداخت نیست');
         }
 
@@ -91,7 +94,7 @@ class CampaignController extends Controller
             'paid_at' => now(),
         ]);
 
-        return redirect()->route('campaigns.show', $id)
+        return redirect()->route('epic.digital-taxi-rooftop.campaign.show', $id)
             ->with('success', 'پرداخت با موفقیت انجام شد! کمپین در انتظار اجرا است.')
             ->with('payment_success', true);
     }

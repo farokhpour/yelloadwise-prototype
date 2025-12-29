@@ -12,138 +12,50 @@
                 </div>
             </div>
             <p class="step-title">{{ steps[currentStep - 1] }}</p>
-            
-            <!-- Developer Notes Toggle -->
-            <button 
-                @click="showDeveloperNotes = !showDeveloperNotes" 
-                class="dev-notes-toggle"
-                type="button"
-            >
-                {{ showDeveloperNotes ? '🔒 مخفی کردن' : '👨‍💻 نمایش' }} یادداشت‌های توسعه‌دهنده
-            </button>
-        </div>
-
-        <!-- Developer Notes Panel -->
-        <div v-if="showDeveloperNotes" class="developer-notes">
-            <h3>📋 یادداشت‌های توسعه‌دهنده - قوانین اعتبارسنجی</h3>
-            <div class="notes-content">
-                <div class="note-section">
-                    <h4>مرحله 1: نام و ویدیو</h4>
-                    <ul>
-                        <li><strong>نام کمپین:</strong> الزامی، رشته، حداکثر 255 کاراکتر</li>
-                        <li><strong>فایل ویدیو:</strong> الزامی، نوع فایل: mp4, avi, mov, wmv، حداکثر 500MB (100MB در اعتبارسنجی، اما سرور 500MB را مجاز می‌کند)</li>
-                    </ul>
-                </div>
-                <div class="note-section">
-                    <h4>مرحله 2: پارامترها</h4>
-                    <ul>
-                        <li><strong>روزها:</strong> الزامی، عدد صحیح، حداقل 1</li>
-                        <li><strong>ماشین‌ها:</strong> الزامی، عدد صحیح، حداقل 1</li>
-                        <li><strong>موقعیت‌ها:</strong> الزامی، آرایه، حداقل 1 موقعیت انتخاب شده (از 12 مسیر موجود)</li>
-                    </ul>
-                </div>
-                <div class="note-section">
-                    <h4>مرحله 3: لینک و UTM</h4>
-                    <ul>
-                        <li><strong>لینک فرود:</strong> الزامی، فرمت URL معتبر</li>
-                        <li><strong>پارامترهای UTM:</strong> اختیاری، تمام فیلدها رشته‌های اختیاری هستند</li>
-                        <li>فیلدهای UTM: utm_source, utm_medium, utm_campaign, utm_term, utm_content</li>
-                    </ul>
-                </div>
-                <div class="note-section">
-                    <h4>اعتبارسنجی بک‌اند (CampaignController@store)</h4>
-                    <pre class="code-block">قوانین اعتبارسنجی:
-- name: required|string|max:255
-- video_file: required|file|mimes:mp4,avi,mov,wmv|max:102400
-- days: required|integer|min:1
-- cars: required|integer|min:1
-- locations: required|string (JSON)
-- link: required|url
-- utms: nullable|string (JSON)
-
-وضعیت پس از ایجاد: 'waiting_admin_approval'</pre>
-                </div>
-                <div class="note-section">
-                    <h4>اعتبارسنجی فرانت‌اند</h4>
-                    <ul>
-                        <li><strong>مرحله 1:</strong> نام الزامی (غیر خالی)، فایل ویدیو الزامی</li>
-                        <li><strong>مرحله 2:</strong> روزها >= 1، ماشین‌ها >= 1، حداقل 1 موقعیت انتخاب شده</li>
-                        <li><strong>مرحله 3:</strong> فرمت URL معتبر برای لینک فرود، UTM اختیاری</li>
-                        <li><strong>مرحله 4:</strong> تمام اعتبارسنجی‌های قبلی باید پاس شوند</li>
-                    </ul>
-                </div>
-                <div class="note-section">
-                    <h4>نقطه پایانی API</h4>
-                    <pre class="code-block">POST /campaigns
-Content-Type: multipart/form-data
-
-بدنه درخواست (FormData):
-- name: string
-- video_file: File
-- days: integer
-- cars: integer
-- locations: JSON string (array)
-- link: URL string
-- utms: JSON string (object)
-
-پاسخ:
-{
-  "success": true,
-  "campaign_id": 1,
-  "message": "Campaign created successfully"
-}</pre>
-                </div>
-                <div class="note-section">
-                    <h4>جزئیات آپلود فایل</h4>
-                    <ul>
-                        <li><strong>حداکثر اندازه:</strong> 500MB (پیکربندی سرور)، 100MB (قانون اعتبارسنجی)</li>
-                        <li><strong>فرمت‌های پذیرفته شده:</strong> MP4, AVI, MOV, WMV</li>
-                        <li><strong>ذخیره‌سازی:</strong> public/campaigns/videos/ (ذخیره‌سازی Laravel)</li>
-                        <li><strong>تولید:</strong> باید از ذخیره‌سازی شی MinIO استفاده کند</li>
-                    </ul>
-                </div>
-                <div class="note-section">
-                    <h4>فرمت داده</h4>
-                    <pre class="code-block">موقعیت‌ها (رشته JSON):
-["route-1", "route-2", "route-3"]
-
-UTM (رشته JSON):
-{
-  "utm_source": "google",
-  "utm_medium": "cpc",
-  "utm_campaign": "summer_sale",
-  "utm_term": "taxi",
-  "utm_content": "video"
-}</pre>
-                </div>
-            </div>
         </div>
 
         <!-- Step 1: Name and Video -->
         <div v-if="currentStep === 1" class="wizard-step">
             <h3>نام کمپین و ویدیو</h3>
             <div class="form-group">
-                <label for="campaign-name">نام کمپین *</label>
-                <input 
-                    id="campaign-name"
-                    type="text" 
-                    v-model="formData.name" 
-                    placeholder="نام کمپین را وارد کنید"
-                    required
-                />
+                <label for="campaign-name" class="label-with-help">
+                    نام کمپین *
+                    <span class="help-icon" @mouseenter="showHelp = 'name'" @mouseleave="showHelp = null">ℹ️</span>
+                </label>
+                <div class="input-with-help">
+                    <input 
+                        id="campaign-name"
+                        type="text" 
+                        v-model="formData.name" 
+                        placeholder="نام کمپین را وارد کنید"
+                        minlength="2"
+                        maxlength="100"
+                        required
+                    />
+                    <div v-if="showHelp === 'name'" class="help-box">
+                        <p><strong>نام کمپین:</strong> این فیلد الزامی است و می‌تواند شامل تمام کاراکترها باشد. حداقل 2 کاراکتر و حداکثر 100 کاراکتر.</p>
+                    </div>
+                </div>
             </div>
             <div class="form-group">
-                <label for="video-file">فایل ویدیو *</label>
-                <input 
-                    id="video-file"
-                    type="file" 
-                    @change="handleVideoUpload"
-                    accept="video/*"
-                    required
-                />
-                <p v-if="formData.videoFile" class="file-info">
-                    انتخاب شده: {{ formData.videoFile.name }} ({{ formatFileSize(formData.videoFile.size) }})
-                </p>
+                <label for="video-file" class="label-with-help">
+                    فایل ویدیو (اختیاری)
+                    <span class="help-icon" @mouseenter="showHelp = 'video'" @mouseleave="showHelp = null">ℹ️</span>
+                </label>
+                <div class="input-with-help">
+                    <input 
+                        id="video-file"
+                        type="file" 
+                        @change="handleVideoUpload"
+                        accept="video/mp4,video/mkv,video/avi,video/mov,video/wmv"
+                    />
+                    <div v-if="showHelp === 'video'" class="help-box">
+                        <p><strong>فایل ویدیو:</strong> این فیلد اختیاری است. در صورت آپلود، باید از انواع معتبر ویدیو باشد (mkv, mp4, avi, mov, wmv).</p>
+                    </div>
+                    <p v-if="formData.videoFile" class="file-info">
+                        انتخاب شده: {{ formData.videoFile.name }} ({{ formatFileSize(formData.videoFile.size) }})
+                    </p>
+                </div>
             </div>
         </div>
 
@@ -151,53 +63,78 @@ UTM (رشته JSON):
         <div v-if="currentStep === 2" class="wizard-step">
             <h3>پارامترهای کمپین</h3>
             <div class="form-group">
-                <label for="days">چند روز *</label>
-                <input 
-                    id="days"
-                    type="number" 
-                    v-model.number="formData.days" 
-                    placeholder="تعداد روزها را وارد کنید"
-                    min="1"
-                    required
-                />
+                <label for="days" class="label-with-help">
+                    چند روز *
+                    <span class="help-icon" @mouseenter="showHelp = 'days'" @mouseleave="showHelp = null">ℹ️</span>
+                </label>
+                <div class="input-with-help">
+                    <input 
+                        id="days"
+                        type="number" 
+                        v-model.number="formData.days" 
+                        placeholder="تعداد روزها را وارد کنید"
+                        min="1"
+                        max="60"
+                        required
+                    />
+                    <div v-if="showHelp === 'days'" class="help-box">
+                        <p><strong>روزها:</strong> این فیلد یک ورودی عددی است. حداقل 1 روز و حداکثر 60 روز.</p>
+                    </div>
+                </div>
             </div>
             <div class="form-group">
-                <label for="cars">چند ماشین *</label>
-                <input 
-                    id="cars"
-                    type="number" 
-                    v-model.number="formData.cars" 
-                    placeholder="تعداد ماشین‌ها را وارد کنید"
-                    min="1"
-                    required
-                />
+                <label for="cars" class="label-with-help">
+                    چند ماشین *
+                    <span class="help-icon" @mouseenter="showHelp = 'cars'" @mouseleave="showHelp = null">ℹ️</span>
+                </label>
+                <div class="input-with-help">
+                    <input 
+                        id="cars"
+                        type="number" 
+                        v-model.number="formData.cars" 
+                        placeholder="تعداد ماشین‌ها را وارد کنید"
+                        min="1"
+                        max="100"
+                        required
+                    />
+                    <div v-if="showHelp === 'cars'" class="help-box">
+                        <p><strong>چند ماشین:</strong> این فیلد یک ورودی عددی است. حداقل 1 ماشین و حداکثر 100 ماشین.</p>
+                    </div>
+                </div>
             </div>
             <div class="form-group">
-                <label for="locations">موقعیت‌ها * (چندتایی انتخاب کنید)</label>
-                <select 
-                    id="locations"
-                    v-model="formData.locations" 
-                    multiple
-                    size="6"
-                    required
-                >
-                    <option value="route-1">مسیر 1 - مرکز شهر</option>
-                    <option value="route-2">مسیر 2 - منطقه مالی</option>
-                    <option value="route-3">مسیر 3 - منطقه خرید</option>
-                    <option value="route-4">مسیر 4 - کریدور فرودگاه</option>
-                    <option value="route-5">مسیر 5 - منطقه دانشگاه</option>
-                    <option value="route-6">مسیر 6 - منطقه تفریحی</option>
-                    <option value="route-7">مسیر 7 - پارک تجاری</option>
-                    <option value="route-8">مسیر 8 - مسکونی شمال</option>
-                    <option value="route-9">مسیر 9 - مسکونی جنوب</option>
-                    <option value="route-10">مسیر 10 - منطقه صنعتی</option>
-                    <option value="route-11">مسیر 11 - ساحلی</option>
-                    <option value="route-12">مسیر 12 - مرکز حومه</option>
-                </select>
-                <p class="help-text">برای انتخاب چند موقعیت، Ctrl (ویندوز) یا Cmd (مک) را نگه دارید</p>
-                <p v-if="formData.locations.length > 0" class="selected-info">
-                    انتخاب شده: {{ formData.locations.length }} موقعیت
-                </p>
+                <label for="locations" class="label-with-help">
+                    موقعیت‌ها (اختیاری) (اگر موقعیت برای شما مهم نیست انتخاب نکنید)
+                    <span class="help-icon" @mouseenter="showHelp = 'locations'" @mouseleave="showHelp = null">ℹ️</span>
+                </label>
+                <div class="input-with-help">
+                    <select 
+                        id="locations"
+                        v-model="formData.locations" 
+                        multiple
+                        size="6"
+                    >
+                        <option value="route-1">مسیر 1 - مرکز شهر</option>
+                        <option value="route-2">مسیر 2 - منطقه مالی</option>
+                        <option value="route-3">مسیر 3 - منطقه خرید</option>
+                        <option value="route-4">مسیر 4 - کریدور فرودگاه</option>
+                        <option value="route-5">مسیر 5 - منطقه دانشگاه</option>
+                        <option value="route-6">مسیر 6 - منطقه تفریحی</option>
+                        <option value="route-7">مسیر 7 - پارک تجاری</option>
+                        <option value="route-8">مسیر 8 - مسکونی شمال</option>
+                        <option value="route-9">مسیر 9 - مسکونی جنوب</option>
+                        <option value="route-10">مسیر 10 - منطقه صنعتی</option>
+                        <option value="route-11">مسیر 11 - ساحلی</option>
+                        <option value="route-12">مسیر 12 - مرکز حومه</option>
+                    </select>
+                    <div v-if="showHelp === 'locations'" class="help-box">
+                        <p><strong>موقعیت‌ها:</strong> این فیلد یک ورودی چند انتخابی است و اختیاری می‌باشد. اگر موقعیت برای شما مهم نیست، انتخاب نکنید.</p>
+                    </div>
+                    <p class="help-text">برای انتخاب چند موقعیت، Ctrl (ویندوز) یا Cmd (مک) را نگه دارید</p>
+                    <p v-if="formData.locations.length > 0" class="selected-info">
+                        انتخاب شده: {{ formData.locations.length }} موقعیت
+                    </p>
+                </div>
             </div>
         </div>
 
@@ -205,14 +142,21 @@ UTM (رشته JSON):
         <div v-if="currentStep === 3" class="wizard-step">
             <h3>لینک و پارامترهای UTM</h3>
             <div class="form-group">
-                <label for="link">لینک صفحه فرود *</label>
-                <input 
-                    id="link"
-                    type="url" 
-                    v-model="formData.link" 
-                    placeholder="https://example.com/landing"
-                    required
-                />
+                <label for="link" class="label-with-help">
+                    لینک صفحه فرود (اختیاری)
+                    <span class="help-icon" @mouseenter="showHelp = 'link'" @mouseleave="showHelp = null">ℹ️</span>
+                </label>
+                <div class="input-with-help">
+                    <input 
+                        id="link"
+                        type="url" 
+                        v-model="formData.link" 
+                        placeholder="https://example.com/landing"
+                    />
+                    <div v-if="showHelp === 'link'" class="help-box">
+                        <p><strong>لینک صفحه فرود:</strong> این فیلد اختیاری است. در صورت وارد کردن، باید یک URL معتبر باشد.</p>
+                    </div>
+                </div>
             </div>
             <div class="form-group">
                 <label>پارامترهای UTM</label>
@@ -249,6 +193,26 @@ UTM (رشته JSON):
         <!-- Step 4: Overview -->
         <div v-if="currentStep === 4" class="wizard-step">
             <h3>نمای کلی کمپین</h3>
+            
+            <!-- Acceptance Criteria -->
+            <div class="acceptance-criteria">
+                <div class="criteria-header">
+                    <span class="criteria-icon">📋</span>
+                    <h4>معیارهای پذیرش فرم</h4>
+                    <span class="help-icon" @mouseenter="showHelp = 'criteria'" @mouseleave="showHelp = null">ℹ️</span>
+                </div>
+                <div v-if="showHelp === 'criteria'" class="help-box criteria-help">
+                    <ul>
+                        <li><strong>نام کمپین:</strong> باید وارد شود (حداقل 2 و حداکثر 100 کاراکتر)</li>
+                        <li><strong>فایل ویدیو:</strong> اختیاری - در صورت آپلود باید از انواع معتبر باشد</li>
+                        <li><strong>روزها:</strong> باید عددی بین 1 تا 60 باشد</li>
+                        <li><strong>ماشین‌ها:</strong> باید عددی بین 1 تا 100 باشد</li>
+                        <li><strong>موقعیت‌ها:</strong> اختیاری - می‌توانید انتخاب نکنید</li>
+                        <li><strong>لینک فرود:</strong> اختیاری - در صورت وارد کردن باید URL معتبر باشد</li>
+                        <li><strong>پارامترهای UTM:</strong> تماماً اختیاری</li>
+                    </ul>
+                </div>
+            </div>
             <div class="overview-section">
                 <h4>اطلاعات کمپین</h4>
                 <p><strong>نام:</strong> {{ formData.name || 'ارائه نشده' }}</p>
@@ -263,17 +227,17 @@ UTM (رشته JSON):
                     <span v-if="formData.locations && formData.locations.length > 0">
                         {{ formData.locations.join('، ') }}
                     </span>
-                    <span v-else>مشخص نشده</span>
+                    <span v-else>انتخاب نشده (اختیاری)</span>
                 </p>
             </div>
 
             <div class="overview-section">
                 <h4>لینک و ردیابی</h4>
                 <p><strong>لینک فرود:</strong> 
-                    <a :href="formData.link" target="_blank" v-if="formData.link">
+                    <a :href="formData.link" target="_blank" v-if="formData.link && formData.link.trim() !== ''">
                         {{ formData.link }}
                     </a>
-                    <span v-else>ارائه نشده</span>
+                    <span v-else>ارائه نشده (اختیاری)</span>
                 </p>
                 <p v-if="hasUtms()"><strong>پارامترهای UTM:</strong></p>
                 <ul v-if="hasUtms()" class="utm-list">
@@ -321,7 +285,7 @@ export default {
             currentStep: 1,
             steps: ['نام و ویدیو', 'پارامترها', 'لینک و UTM', 'نمای کلی'],
             submitting: false,
-            showDeveloperNotes: false,
+            showHelp: null,
             formData: {
                 name: '',
                 videoFile: null,
@@ -343,13 +307,16 @@ export default {
         canProceed() {
             switch(this.currentStep) {
                 case 1:
-                    return this.formData.name.trim() !== '' && this.formData.videoFile !== null;
+                    const name = this.formData.name.trim();
+                    return name.length >= 2 && name.length <= 100;
                 case 2:
-                    return this.formData.days > 0 && 
-                           this.formData.cars > 0 && 
-                           this.formData.locations.length > 0;
+                    return this.formData.days >= 1 && 
+                           this.formData.days <= 60 &&
+                           this.formData.cars >= 1 && 
+                           this.formData.cars <= 100;
                 case 3:
-                    return this.formData.link.trim() !== '';
+                    // Link is optional, so step 3 can always proceed
+                    return true;
                 default:
                     return true;
             }
@@ -386,11 +353,30 @@ export default {
             if (this.submitting) return;
 
             // Validate required fields
-            if (!this.formData.name || !this.formData.videoFile || 
-                !this.formData.days || !this.formData.cars || 
-                this.formData.locations.length === 0 || !this.formData.link) {
-                alert('لطفاً تمام فیلدهای الزامی را قبل از ارسال پر کنید.');
+            const name = this.formData.name.trim();
+            if (!name || name.length < 2 || name.length > 100) {
+                alert('لطفاً نام کمپین را وارد کنید (حداقل 2 و حداکثر 100 کاراکتر).');
                 return;
+            }
+            
+            if (!this.formData.days || this.formData.days < 1 || this.formData.days > 60) {
+                alert('لطفاً تعداد روزها را وارد کنید (بین 1 تا 60).');
+                return;
+            }
+            
+            if (!this.formData.cars || this.formData.cars < 1 || this.formData.cars > 100) {
+                alert('لطفاً تعداد ماشین‌ها را وارد کنید (بین 1 تا 100).');
+                return;
+            }
+            
+            // Validate link if provided
+            if (this.formData.link && this.formData.link.trim() !== '') {
+                try {
+                    new URL(this.formData.link);
+                } catch (e) {
+                    alert('لینک وارد شده معتبر نیست. لطفاً یک URL معتبر وارد کنید.');
+                    return;
+                }
             }
 
             this.submitting = true;
@@ -398,15 +384,19 @@ export default {
             try {
                 // Create FormData for file upload
                 const formData = new FormData();
-                formData.append('name', this.formData.name);
-                formData.append('video_file', this.formData.videoFile);
+                formData.append('name', this.formData.name.trim());
+                if (this.formData.videoFile) {
+                    formData.append('video_file', this.formData.videoFile);
+                }
                 formData.append('days', this.formData.days);
                 formData.append('cars', this.formData.cars);
-                formData.append('locations', JSON.stringify(this.formData.locations));
-                formData.append('link', this.formData.link);
+                formData.append('locations', JSON.stringify(this.formData.locations || []));
+                if (this.formData.link && this.formData.link.trim() !== '') {
+                    formData.append('link', this.formData.link.trim());
+                }
                 formData.append('utms', JSON.stringify(this.formData.utms));
 
-                const response = await axios.post('/campaigns', formData, {
+                const response = await axios.post('/epic/digital-taxi-rooftop/campaign', formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data'
                     }
@@ -414,7 +404,7 @@ export default {
 
                 if (response.data.success) {
                     alert('کمپین با موفقیت ایجاد شد! در حال هدایت به صفحه کمپین...');
-                    window.location.href = `/campaigns/${response.data.campaign_id}`;
+                    window.location.href = `/epic/digital-taxi-rooftop/campaign/${response.data.campaign_id}`;
                 } else {
                     alert('خطا در ایجاد کمپین: ' + (response.data.message || 'خطای ناشناخته'));
                 }
@@ -507,6 +497,137 @@ export default {
     margin-bottom: 0.5rem;
     color: #333;
     font-weight: 500;
+}
+
+.label-with-help {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    position: relative;
+}
+
+.help-icon {
+    font-size: 1rem;
+    cursor: help;
+    color: #007bff;
+    transition: all 0.3s;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #e3f2fd;
+}
+
+.help-icon:hover {
+    background: #007bff;
+    color: white;
+    transform: scale(1.1);
+}
+
+.input-with-help {
+    position: relative;
+}
+
+.help-box {
+    position: absolute;
+    right: 0;
+    top: 100%;
+    margin-top: 0.5rem;
+    background: white;
+    border: 2px solid #007bff;
+    border-radius: 8px;
+    padding: 1rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    z-index: 1000;
+    min-width: 300px;
+    max-width: 400px;
+    animation: fadeIn 0.3s ease-in;
+}
+
+.help-box::before {
+    content: '';
+    position: absolute;
+    bottom: 100%;
+    right: 20px;
+    border: 8px solid transparent;
+    border-bottom-color: #007bff;
+}
+
+.help-box p {
+    margin: 0;
+    color: #333;
+    line-height: 1.6;
+    font-size: 0.9rem;
+}
+
+.help-box strong {
+    color: #007bff;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.acceptance-criteria {
+    background: #f8f9fa;
+    border: 2px solid #28a745;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    position: relative;
+}
+
+.criteria-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.criteria-header h4 {
+    margin: 0;
+    color: #28a745;
+    font-size: 1.1rem;
+}
+
+.criteria-icon {
+    font-size: 1.5rem;
+}
+
+.criteria-help {
+    position: relative;
+    margin-top: 1rem;
+    background: white;
+    border-color: #28a745;
+}
+
+.criteria-help::before {
+    border-bottom-color: #28a745;
+}
+
+.criteria-help ul {
+    margin: 0;
+    padding-right: 1.5rem;
+    list-style-type: disc;
+}
+
+.criteria-help li {
+    margin: 0.5rem 0;
+    line-height: 1.6;
+    color: #333;
+}
+
+.criteria-help strong {
+    color: #28a745;
 }
 
 .form-group input[type="text"],

@@ -2,7 +2,7 @@
 <div style="max-width: 1400px; margin: 0 auto; padding: 2rem;">
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
         <h1>فهرست کمپین‌های من</h1>
-        <a href="<?php echo e(route('campaigns.create')); ?>" 
+        <a href="<?php echo e(route('epic.digital-taxi-rooftop.campaign.create')); ?>" 
            style="display: inline-block; padding: 0.75rem 1.5rem; background: #007bff; color: white; text-decoration: none; border-radius: 6px; font-weight: 600;">
             ➕ ایجاد کمپین جدید
         </a>
@@ -65,7 +65,7 @@
                         <td style="padding: 1rem;"><?php echo e($campaign->cars); ?></td>
                         <td style="padding: 1rem;"><?php echo e($campaign->created_at->format('Y-m-d H:i')); ?></td>
                         <td style="padding: 1rem;">
-                            <a href="<?php echo e(route('campaigns.show', $campaign->id)); ?>" 
+                            <a href="<?php echo e(route('epic.digital-taxi-rooftop.campaign.show', $campaign->id)); ?>" 
                                style="display: inline-block; padding: 0.5rem 1rem; background: #007bff; color: white; text-decoration: none; border-radius: 4px; font-size: 0.875rem; font-weight: 500; transition: all 0.3s;"
                                onmouseover="this.style.background='#0056b3'; this.style.transform='translateY(-2px)';"
                                onmouseout="this.style.background='#007bff'; this.style.transform='translateY(0)';">
@@ -78,7 +78,7 @@
                         <td colspan="7" style="padding: 3rem; text-align: center; color: #666;">
                             <div style="font-size: 3rem; margin-bottom: 1rem;">📭</div>
                             <p style="font-size: 1.1rem; margin-bottom: 1rem;">هیچ کمپینی یافت نشد</p>
-                            <a href="<?php echo e(route('campaigns.create')); ?>" 
+                            <a href="<?php echo e(route('epic.digital-taxi-rooftop.campaign.create')); ?>" 
                                style="display: inline-block; padding: 0.75rem 1.5rem; background: #007bff; color: white; text-decoration: none; border-radius: 6px; font-weight: 600;">
                                 ایجاد اولین کمپین
                             </a>

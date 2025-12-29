@@ -95,7 +95,7 @@
                 
                 <?php if($campaign->status === 'waiting_payment'): ?>
                     <div style="text-align: center; margin-top: 2rem; padding-top: 2rem; border-top: 2px solid #dee2e6;">
-                        <form method="POST" action="<?php echo e(route('campaigns.payment.process', $campaign->id)); ?>" style="display: inline-block;">
+                        <form method="POST" action="<?php echo e(route('epic.digital-taxi-rooftop.campaign.payment.process', $campaign->id)); ?>" style="display: inline-block;">
                             <?php echo csrf_field(); ?>
                             <button type="submit" 
                                     style="padding: 1rem 2.5rem; background: #28a745; color: white; border: none; border-radius: 6px; font-weight: 600; font-size: 1.1rem; cursor: pointer; transition: all 0.3s;"

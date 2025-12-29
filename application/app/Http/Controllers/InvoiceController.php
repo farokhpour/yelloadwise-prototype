@@ -13,7 +13,7 @@ class InvoiceController extends Controller
         
         // Only show invoice if campaign is approved or beyond
         if (!in_array($campaign->status, ['waiting_payment', 'waiting_to_run', 'running', 'completed'])) {
-            return redirect()->route('campaigns.show', $id)
+            return redirect()->route('epic.digital-taxi-rooftop.campaign.show', $id)
                 ->with('error', 'فاکتور برای این وضعیت کمپین در دسترس نیست');
         }
 

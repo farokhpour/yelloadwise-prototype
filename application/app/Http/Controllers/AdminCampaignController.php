@@ -24,12 +24,17 @@ class AdminCampaignController extends Controller
     {
         $campaign = Campaign::findOrFail($id);
 
+        // Prevent updates when campaign is in read-only status
+        if (in_array($campaign->status, ['waiting_to_run', 'running', 'completed'])) {
+            return back()->with('error', 'این کمپین در وضعیت فعلی قابل ویرایش نیست.');
+        }
+
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'days' => 'required|integer|min:1',
             'cars' => 'required|integer|min:1',
-            'locations' => 'required|array',
-            'link' => 'required|url',
+            'locations' => 'nullable|array',
+            'link' => 'nullable|url',
             'utms' => 'nullable|array',
             'cost_per_day' => 'nullable|numeric|min:0',
             'video_file' => 'nullable|file|mimes:mp4,avi,mov,wmv|max:102400', // 100MB max
@@ -58,6 +63,16 @@ class AdminCampaignController extends Controller
         // Remove remove_video from validated data
         unset($validated['remove_video']);
 
+        // Handle locations - convert to empty array if not provided
+        if (!isset($validated['locations']) || empty($validated['locations'])) {
+            $validated['locations'] = [];
+        }
+
+        // Handle link - set to null if empty
+        if (isset($validated['link']) && empty(trim($validated['link']))) {
+            $validated['link'] = null;
+        }
+
         // Check if approve button was clicked (before updating)
         $shouldApprove = $request->has('approve') && $campaign->status === 'waiting_admin_approval';
 
@@ -70,11 +85,11 @@ class AdminCampaignController extends Controller
                 'status' => 'waiting_payment',
                 'approved_at' => now(),
             ]);
-            return redirect()->route('admin.campaigns.edit', $id)
+            return redirect()->route('epic.digital-taxi-rooftop.admin.campaigns.edit', $id)
                     ->with('success', 'کمپین با موفقیت به‌روزرسانی و تایید شد!');
         }
 
-        return redirect()->route('admin.campaigns.edit', $id)
+        return redirect()->route('epic.digital-taxi-rooftop.admin.campaigns.edit', $id)
             ->with('success', 'کمپین با موفقیت به‌روزرسانی شد');
     }
 

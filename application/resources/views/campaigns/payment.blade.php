@@ -28,7 +28,7 @@
         </table>
     </div>
 
-    <form method="POST" action="{{ route('campaigns.payment.process', $campaign->id) }}" style="background: white; padding: 2rem; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+    <form method="POST" action="{{ route('epic.digital-taxi-rooftop.campaign.payment.process', $campaign->id) }}" style="background: white; padding: 2rem; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
         @csrf
         
         <h2>Payment Information</h2>
@@ -44,7 +44,7 @@
             <button type="submit" style="flex: 1; padding: 1rem; background: #28a745; color: white; border: none; border-radius: 6px; font-size: 1.1rem; font-weight: 600; cursor: pointer;">
                 Process Payment
             </button>
-            <a href="{{ route('campaigns.show', $campaign->id) }}" 
+            <a href="{{ route('epic.digital-taxi-rooftop.campaign.show', $campaign->id) }}" 
                style="flex: 1; padding: 1rem; background: #6c757d; color: white; text-decoration: none; border-radius: 6px; text-align: center; font-size: 1.1rem; font-weight: 600;">
                 Cancel
             </a>

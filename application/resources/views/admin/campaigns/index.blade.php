@@ -3,12 +3,6 @@
 @section('content')
 <div style="max-width: 1400px; margin: 0 auto; padding: 2rem;">
     <h1>مدیریت کمپین - ادمین</h1>
-    
-    <div style="margin-bottom: 2rem;">
-        <a href="{{ route('campaigns.create') }}" style="display: inline-block; padding: 0.75rem 1.5rem; background: #007bff; color: white; text-decoration: none; border-radius: 6px;">
-            ایجاد کمپین جدید
-        </a>
-    </div>
 
     <table style="width: 100%; border-collapse: collapse; background: white; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
         <thead>
@@ -50,7 +44,7 @@
                     <td style="padding: 1rem;">{{ $campaign->cars }}</td>
                     <td style="padding: 1rem;" class="ltr">${{ number_format($campaign->cost_per_day ?? 0, 2) }}</td>
                     <td style="padding: 1rem;">
-                        <a href="{{ route('admin.campaigns.edit', $campaign->id) }}" 
+                        <a href="{{ route('epic.digital-taxi-rooftop.admin.campaigns.edit', $campaign->id) }}" 
                            style="padding: 0.5rem 1rem; background: #007bff; color: white; text-decoration: none; border-radius: 4px; font-size: 0.875rem;">
                             ویرایش
                         </a>

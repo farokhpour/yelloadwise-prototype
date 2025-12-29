@@ -17,7 +17,14 @@ class HomeController extends Controller
                 'status' => 'active',
                 'routes_count' => 8,
             ],
-            // Future epics can be added here
+            [
+                'id' => 'filters',
+                'name' => 'افزودن فیلترهای بیشتر به جداول داده',
+                'description' => 'این یک سیستم فیلتر است که به کاربران و ادمین‌ها کمک می‌کند تا در جداول داده بهتر جستجو کنند.',
+                'icon' => '🔍',
+                'status' => 'active',
+                'routes_count' => 3,
+            ],
         ];
 
         return view('home', compact('epics'));
