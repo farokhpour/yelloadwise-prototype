@@ -72,6 +72,15 @@ class HomeController extends Controller
                 'status' => 'active',
                 'routes_count' => 3,
             ],
+            [
+                'id' => 'sms-campaign-file-upload',
+                'epic_id' => 'EPIC_8',
+                'name' => 'کمپین پیامک با آپلود فایل',
+                'description' => 'سیستم ایجاد کمپین پیامک با امکان آپلود فایل به جای استفاده از فیلترهای پنل.',
+                'icon' => '📄',
+                'status' => 'active',
+                'routes_count' => 1,
+            ],
         ];
 
         return view('home', compact('epics'));

@@ -25,6 +25,7 @@ use App\Http\Controllers\NotificationEpicController;
 use App\Http\Controllers\NotificationTemplateController;
 use App\Http\Controllers\AdminNotificationTemplateController;
 use App\Http\Controllers\NotificationApiDocsController;
+use App\Http\Controllers\SmsCampaignFileUploadController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 // Link Generator Epic Routes
@@ -41,6 +42,11 @@ Route::prefix('epics/link-generator')->name('epics.link-generator.')->group(func
 // Notification to Admins Epic Routes
 Route::prefix('epics/notification-to-admins')->name('epics.notification-to-admins.')->group(function () {
     Route::get('/', [NotificationToAdminsController::class, 'index'])->name('index');
+});
+
+// SMS Campaign File Upload Epic Routes
+Route::prefix('epics/sms-campaign-file-upload')->name('epics.sms-campaign-file-upload.')->group(function () {
+    Route::get('/', [SmsCampaignFileUploadController::class, 'index'])->name('index');
 });
 
 // Notifications Epic Routes
