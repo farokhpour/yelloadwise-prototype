@@ -82,11 +82,12 @@ class AdminCampaignController extends Controller
         // Approve if requested
         if ($shouldApprove) {
             $campaign->update([
-                'status' => 'waiting_payment',
+                'status' => 'waiting_for_regulator_approval',
                 'approved_at' => now(),
+                'regulator_comment' => null, // Clear previous regulator comment when admin approves again
             ]);
             return redirect()->route('epic.digital-taxi-rooftop.admin.campaigns.edit', $id)
-                    ->with('success', 'کمپین با موفقیت به‌روزرسانی و تایید شد!');
+                    ->with('success', 'کمپین با موفقیت به‌روزرسانی و تایید شد! در انتظار تایید مجوز دهنده.');
         }
 
         return redirect()->route('epic.digital-taxi-rooftop.admin.campaigns.edit', $id)
@@ -113,11 +114,12 @@ class AdminCampaignController extends Controller
         }
 
         $campaign->update([
-            'status' => 'waiting_payment',
+            'status' => 'waiting_for_regulator_approval',
             'approved_at' => now(),
+            'regulator_comment' => null, // Clear previous regulator comment when admin approves again
         ]);
 
-        return back()->with('success', 'کمپین تایید شد! در انتظار پرداخت.');
+        return back()->with('success', 'کمپین تایید شد! در انتظار تایید مجوز دهنده.');
     }
 
     public function run($id)

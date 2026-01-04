@@ -109,9 +109,9 @@
                         </td>
                         <td style="padding: 1rem;">
                             <span style="padding: 0.25rem 0.75rem; border-radius: 4px; background: 
-                                @if($customer['status'] === 'تایید شده') #28a745
-                                @elseif($customer['status'] === 'در انتظار تایید') #ffc107
-                                @elseif($customer['status'] === 'در انتظار تکمیل اطلاعات') #17a2b8
+                                @if($customer['status'] === 'در انتظار تکمیل اطلاعات') #6c757d
+                                @elseif($customer['status'] === 'در انتظار تایید') #007bff
+                                @elseif($customer['status'] === 'تایید شده') #28a745
                                 @else #6c757d
                                 @endif; color: white; font-size: 0.875rem; font-weight: 600;">
                                 {{ $customer['status'] ?? '-' }}

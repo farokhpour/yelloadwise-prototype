@@ -16,6 +16,7 @@ class Campaign extends Model
         'utms',
         'cost_per_day',
         'status',
+        'regulator_comment',
         'approved_at',
         'paid_at',
         'started_at',
@@ -43,6 +44,11 @@ class Campaign extends Model
     public function isWaitingAdminApproval(): bool
     {
         return $this->status === 'waiting_admin_approval';
+    }
+
+    public function isWaitingForRegulatorApproval(): bool
+    {
+        return $this->status === 'waiting_for_regulator_approval';
     }
 
     public function isWaitingPayment(): bool

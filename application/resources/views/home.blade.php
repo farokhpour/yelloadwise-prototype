@@ -11,9 +11,14 @@
         @foreach($epics as $epic)
             <a href="{{ route('epics.show', $epic['id']) }}" 
                style="text-decoration: none; display: block;">
-                <div style="background: white; border: 2px solid #dee2e6; border-radius: 12px; padding: 2rem; transition: all 0.3s; height: 100%; display: flex; flex-direction: column;"
+                <div style="background: white; border: 2px solid #dee2e6; border-radius: 12px; padding: 2rem; transition: all 0.3s; height: 100%; display: flex; flex-direction: column; position: relative;"
                      onmouseover="this.style.borderColor='#007bff'; this.style.boxShadow='0 4px 12px rgba(0,123,255,0.2)';"
                      onmouseout="this.style.borderColor='#dee2e6'; this.style.boxShadow='none';">
+                    <div style="position: absolute; top: 1rem; left: 1rem;">
+                        <span style="padding: 0.35rem 0.75rem; background: #6c757d; color: white; border-radius: 6px; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.5px;">
+                            {{ $epic['epic_id'] ?? 'EPIC_' . ($loop->index + 1) }}
+                        </span>
+                    </div>
                     <div style="font-size: 4rem; margin-bottom: 1rem; text-align: center;">
                         {{ $epic['icon'] }}
                     </div>

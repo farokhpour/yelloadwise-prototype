@@ -25,6 +25,7 @@
                         <span style="padding: 0.25rem 0.75rem; border-radius: 4px; background: 
                             @if($campaign->status === 'draft') #6c757d
                             @elseif($campaign->status === 'waiting_admin_approval') #ffc107
+                            @elseif($campaign->status === 'waiting_for_regulator_approval') #fd7e14
                             @elseif($campaign->status === 'waiting_payment') #17a2b8
                             @elseif($campaign->status === 'waiting_to_run') #007bff
                             @elseif($campaign->status === 'running') #28a745
@@ -32,6 +33,7 @@
                             @endif; color: white; font-size: 0.875rem;">
                             @if($campaign->status === 'draft') پیش‌نویس
                             @elseif($campaign->status === 'waiting_admin_approval') در انتظار تایید ادمین
+                            @elseif($campaign->status === 'waiting_for_regulator_approval') در انتظار تایید مجوز دهنده
                             @elseif($campaign->status === 'waiting_payment') در انتظار پرداخت
                             @elseif($campaign->status === 'waiting_to_run') آماده اجرا
                             @elseif($campaign->status === 'running') در حال اجرا

@@ -29,10 +29,11 @@
         <h2 style="color: #007bff; margin-bottom: 1.5rem; border-bottom: 2px solid #007bff; padding-bottom: 0.5rem;">صفحات موجود</h2>
 
         <!-- User Pages -->
-        <div style="margin-bottom: 2rem;">
-            <h3 style="color: #28a745; margin-bottom: 1rem; font-size: 1.3rem;">👤 صفحات کاربر</h3>
-            <div style="display: grid; gap: 1rem;">
-                @foreach($epic['pages']['user'] as $page)
+        @if(isset($epic['pages']['user']) && count($epic['pages']['user']) > 0)
+            <div style="margin-bottom: 2rem;">
+                <h3 style="color: #28a745; margin-bottom: 1rem; font-size: 1.3rem;">👤 صفحات کاربر</h3>
+                <div style="display: grid; gap: 1rem;">
+                    @foreach($epic['pages']['user'] as $page)
                     <div style="border: 1px solid #dee2e6; border-radius: 8px; padding: 1.5rem; background: #f8f9fa; transition: all 0.3s;" 
                          onmouseover="this.style.borderColor='#28a745'; this.style.boxShadow='0 2px 8px rgba(40,167,69,0.2)';"
                          onmouseout="this.style.borderColor='#dee2e6'; this.style.boxShadow='none';">
@@ -54,15 +55,17 @@
                             @endif
                         </div>
                     </div>
-                @endforeach
+                    @endforeach
+                </div>
             </div>
-        </div>
+        @endif
 
         <!-- Admin Pages -->
-        <div style="margin-bottom: 2rem;">
-            <h3 style="color: #dc3545; margin-bottom: 1rem; font-size: 1.3rem;">🔧 صفحات ادمین</h3>
-            <div style="display: grid; gap: 1rem;">
-                @foreach($epic['pages']['admin'] as $page)
+        @if(isset($epic['pages']['admin']) && count($epic['pages']['admin']) > 0)
+            <div style="margin-bottom: 2rem;">
+                <h3 style="color: #dc3545; margin-bottom: 1rem; font-size: 1.3rem;">🔧 صفحات ادمین</h3>
+                <div style="display: grid; gap: 1rem;">
+                    @foreach($epic['pages']['admin'] as $page)
                     <div style="border: 1px solid #dee2e6; border-radius: 8px; padding: 1.5rem; background: #f8f9fa; transition: all 0.3s;" 
                          onmouseover="this.style.borderColor='#dc3545'; this.style.boxShadow='0 2px 8px rgba(220,53,69,0.2)';"
                          onmouseout="this.style.borderColor='#dee2e6'; this.style.boxShadow='none';">
@@ -84,9 +87,10 @@
                             @endif
                         </div>
                     </div>
-                @endforeach
+                    @endforeach
+                </div>
             </div>
-        </div>
+        @endif
 
         <!-- Integration Pages -->
         @if(isset($epic['pages']['integration']) && count($epic['pages']['integration']) > 0)

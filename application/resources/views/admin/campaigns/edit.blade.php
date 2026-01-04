@@ -23,6 +23,7 @@
             <span style="padding: 0.5rem 1rem; border-radius: 4px; background: 
                 @if($campaign->status === 'draft') #6c757d
                 @elseif($campaign->status === 'waiting_admin_approval') #ffc107
+                @elseif($campaign->status === 'waiting_for_regulator_approval') #fd7e14
                 @elseif($campaign->status === 'waiting_payment') #17a2b8
                 @elseif($campaign->status === 'waiting_to_run') #007bff
                 @elseif($campaign->status === 'running') #28a745
@@ -30,6 +31,7 @@
                 @endif; color: white; font-weight: bold;">
                 @if($campaign->status === 'draft') پیش‌نویس
                 @elseif($campaign->status === 'waiting_admin_approval') در انتظار تایید ادمین
+                @elseif($campaign->status === 'waiting_for_regulator_approval') در انتظار تایید مجوز دهنده
                 @elseif($campaign->status === 'waiting_payment') در انتظار پرداخت
                 @elseif($campaign->status === 'waiting_to_run') آماده اجرا
                 @elseif($campaign->status === 'running') در حال اجرا
@@ -38,6 +40,15 @@
                 @endif
             </span>
         </p>
+        
+        @if($campaign->regulator_comment)
+            <div style="margin-top: 1rem; padding: 1rem; background: #fff3cd; border: 1px solid #ffc107; border-radius: 6px; border-right: 4px solid #ffc107;">
+                <p style="margin: 0 0 0.5rem 0; font-weight: 600; color: #856404;">
+                    💬 نظر مجوز دهنده:
+                </p>
+                <p style="margin: 0; color: #856404; line-height: 1.6; white-space: pre-wrap;">{{ $campaign->regulator_comment }}</p>
+            </div>
+        @endif
     </div>
 
     @php

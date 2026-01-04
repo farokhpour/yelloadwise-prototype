@@ -108,5 +108,22 @@ class MockDataHelper
             'targeted-sms' => 'پیامک هدفمند',
         ];
     }
+
+    public static function getMockCustomerByCampaignId($campaignId)
+    {
+        $customers = self::getMockCustomers();
+        // Map campaign ID to customer (using modulo to cycle through customers)
+        $customerIndex = ($campaignId - 1) % $customers->count();
+        return $customers->values()->get($customerIndex);
+    }
+
+    public static function getCampaignTypeByCampaignId($campaignId)
+    {
+        $types = self::getCampaignTypes();
+        $typeKeys = array_keys($types);
+        // Map campaign ID to campaign type (using modulo to cycle through types)
+        $typeIndex = ($campaignId - 1) % count($typeKeys);
+        return $types[$typeKeys[$typeIndex]];
+    }
 }
 
