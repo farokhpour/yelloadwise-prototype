@@ -119,15 +119,6 @@
                     </a>
                 @endif
                 
-                @if($isInLinkGeneratorRoute)
-                    <a href="{{ route('epics.link-generator.index') }}" 
-                       style="padding: 0.5rem 1rem; color: white; text-decoration: none; border-radius: 6px; transition: all 0.3s; font-weight: 500;"
-                       onmouseover="this.style.background='rgba(255,255,255,0.2)';"
-                       onmouseout="this.style.background='transparent';">
-                        🔗 فهرست لینک‌ها
-                    </a>
-                @endif
-                
                 @if($isInNotificationRoute)
                     <a href="{{ route('epics.notifications.user.templates.index') }}" 
                        style="padding: 0.5rem 1rem; color: white; text-decoration: none; border-radius: 6px; transition: all 0.3s; font-weight: 500;"
