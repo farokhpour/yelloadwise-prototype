@@ -26,6 +26,7 @@ use App\Http\Controllers\NotificationTemplateController;
 use App\Http\Controllers\AdminNotificationTemplateController;
 use App\Http\Controllers\NotificationApiDocsController;
 use App\Http\Controllers\SmsCampaignFileUploadController;
+use App\Http\Controllers\CampaignUpdateController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 // Link Generator Epic Routes
@@ -47,6 +48,15 @@ Route::prefix('epics/notification-to-admins')->name('epics.notification-to-admin
 // SMS Campaign File Upload Epic Routes
 Route::prefix('epics/sms-campaign-file-upload')->name('epics.sms-campaign-file-upload.')->group(function () {
     Route::get('/', [SmsCampaignFileUploadController::class, 'index'])->name('index');
+});
+
+// Campaign Update Epic Routes
+Route::prefix('epics/campaign-update')->name('epics.campaign-update.')->group(function () {
+    Route::get('/', [CampaignUpdateController::class, 'epicIndex'])->name('epic-index');
+    Route::get('/form-1/{id}', [CampaignUpdateController::class, 'updateForm1'])->name('update-form-1');
+    Route::post('/form-1/{id}', [CampaignUpdateController::class, 'updateForm1Store'])->name('update-form-1.store');
+    Route::get('/form-2/{id}', [CampaignUpdateController::class, 'updateForm2'])->name('update-form-2');
+    Route::post('/form-2/{id}', [CampaignUpdateController::class, 'updateForm2Store'])->name('update-form-2.store');
 });
 
 // Notifications Epic Routes

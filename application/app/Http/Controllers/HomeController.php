@@ -81,6 +81,15 @@ class HomeController extends Controller
                 'status' => 'active',
                 'routes_count' => 1,
             ],
+            [
+                'id' => 'campaign-update',
+                'epic_id' => 'EPIC_9',
+                'name' => 'قابلیت به‌روزرسانی داده‌های کمپین',
+                'description' => 'سیستم به‌روزرسانی داده‌های کمپین توسط ادمین با دو فرم جداگانه برای مدیریت قیمت، تخفیف و اطلاعات هدف.',
+                'icon' => '✏️',
+                'status' => 'active',
+                'routes_count' => 3,
+            ],
         ];
 
         return view('home', compact('epics'));

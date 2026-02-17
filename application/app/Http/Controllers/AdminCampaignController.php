@@ -138,4 +138,49 @@ class AdminCampaignController extends Controller
 
         return back()->with('success', 'کمپین اکنون در حال اجرا است!');
     }
+
+    // Form 1: Price, Discount Percent, Settlement Account
+    public function updateForm1($id)
+    {
+        $campaign = Campaign::findOrFail($id);
+        return view('admin.campaigns.update-form-1', compact('campaign'));
+    }
+
+    public function updateForm1Store(Request $request, $id)
+    {
+        $campaign = Campaign::findOrFail($id);
+        
+        $validated = $request->validate([
+            'price' => 'required|numeric|min:0',
+            'discount_percent' => 'nullable|numeric|min:0|max:100',
+            'settlement_account' => 'nullable|boolean',
+        ]);
+
+        // In a real application, these would be saved to the database
+        // For prototype, we'll just show a success message
+        return redirect()->route('epic.digital-taxi-rooftop.admin.campaigns.update-form-1', $id)
+            ->with('success', 'فرم با موفقیت ثبت شد! (این یک نمونه است و داده‌ها ذخیره نشده‌اند)');
+    }
+
+    // Form 2: Target and Campaign Start Date
+    public function updateForm2($id)
+    {
+        $campaign = Campaign::findOrFail($id);
+        return view('admin.campaigns.update-form-2', compact('campaign'));
+    }
+
+    public function updateForm2Store(Request $request, $id)
+    {
+        $campaign = Campaign::findOrFail($id);
+        
+        $validated = $request->validate([
+            'target' => 'required|string|max:255',
+            'campaign_start_date' => 'required|date',
+        ]);
+
+        // In a real application, these would be saved to the database
+        // For prototype, we'll just show a success message
+        return redirect()->route('epic.digital-taxi-rooftop.admin.campaigns.update-form-2', $id)
+            ->with('success', 'فرم با موفقیت ثبت شد! (این یک نمونه است و داده‌ها ذخیره نشده‌اند)');
+    }
 }
