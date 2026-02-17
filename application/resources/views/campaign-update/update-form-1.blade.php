@@ -27,7 +27,7 @@
         <div style="background: #d4edda; padding: 1.5rem; border-radius: 8px; margin-bottom: 2rem; border-right: 4px solid #28a745;">
             <h3 style="color: #155724; margin-bottom: 0.75rem; font-size: 1.1rem;">✅ قوانین این فرم</h3>
             <p style="color: #155724; line-height: 2; font-size: 0.95rem; margin: 0;">
-                هیچ محدودیتی برای آپدیت این فرم توسط ادمین وجود ندارد و با به‌روزرسانی آن، فاکتور مجدد با پارامترهای جدید ایجاد می‌شود.
+                تنها محدودیت این فرم این است که کمپین نباید پرداخت شده باشد و با به‌روزرسانی آن، فاکتور مجدد با پارامترهای جدید ایجاد می‌شود.
             </p>
         </div>
 
@@ -37,7 +37,7 @@
             <!-- Price Field -->
             <div style="margin-bottom: 1.5rem;">
                 <label for="price" style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: #333;">
-                    قیمت <span style="color: #dc3545;">*</span>
+                    قیمت یک اقدام
                 </label>
                 <input type="number" 
                        id="price" 
@@ -94,7 +94,7 @@
                     </span>
                 </label>
                 <small style="display: block; margin-top: 0.5rem; color: #6c757d; font-size: 0.875rem; margin-right: 2rem;">
-                    با فعال کردن این گزینه، مفاصا حساب برای این کمپین اعمال می‌شود
+                    (در صورتی که گزینه مفاصا حساب مشتری فعال باشد)
                 </small>
             </div>
 
