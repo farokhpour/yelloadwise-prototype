@@ -32,11 +32,6 @@
                 </p>
 
                 <div style="background: rgba(255,255,255,0.5); padding: 1rem; border-radius: 6px; margin-bottom: 1rem;">
-                    <p style="margin: 0; font-weight: 600;">🔴 کمپین تمام شده:</p>
-                    <p style="margin: 0.25rem 0 0 1rem;">امکان تغییر وجود ندارد.</p>
-                </div>
-
-                <div style="background: rgba(255,255,255,0.5); padding: 1rem; border-radius: 6px; margin-bottom: 1rem;">
                     <p style="margin: 0; font-weight: 600;">🟢 کمپین در انتظار اجرا:</p>
                     <p style="margin: 0.25rem 0 0 1rem;">امکان تغییر بدون هیچ محدودیتی وجود دارد.</p>
                 </div>
